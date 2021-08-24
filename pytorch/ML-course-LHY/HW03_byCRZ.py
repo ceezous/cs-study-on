@@ -12,8 +12,9 @@ from torchvision.datasets import DatasetFolder
 # This is for the progress bar.
 from tqdm.auto import tqdm
 
-# Log
+# Log and time
 import logging
+import time
 
 
 logger = logging.getLogger()  # 不加名称设置root logger
@@ -51,7 +52,7 @@ CONFIG = {
     "do_semi": False,
 
     "device": "gpu",
-    "save_path": "./checkpoints",
+    "save_path": "./checkpoints/checkpoint.pth",
 }
 
 
@@ -178,8 +179,11 @@ def train(train_loader, valid_loader):
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.0003, weight_decay=1e-5)
 
+
+    time_init = time.time()
     for epoch in range(CONFIG["num_epochs"]):
         logger.info(f"epoch: {epoch + 1} start.")
+        time_start = time.time()
 
         if CONFIG["do_semi"]:
             pass
@@ -227,6 +231,10 @@ def train(train_loader, valid_loader):
         
         logger.info("saving model...")
         torch.save(model, CONFIG["save_path"])
+        time_end = time.time()
+        time_epoch = time_end - time_start
+        time_total = time_end - time_init
+        logger.info(f"epoch time: {time_epoch}, total time: {time_total}")
 
 
 if __name__ == "__main__":
