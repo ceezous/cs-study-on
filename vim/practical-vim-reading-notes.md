@@ -13,4 +13,8 @@ Normal mode
 - `j` : jump to next line
 - `.` : repeat commands
 
-### 003 
+### 003 以退为进
+- `f{char}` : find some char -- seeing tech 050
+- `s` : delete a char behind the cursor
+- `;` : repeat the previous find action
+- `.` : repeat the modification
